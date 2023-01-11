@@ -2,20 +2,77 @@ class BoxShadowGenerator{
 
     constructor(horizontal, horizontalRef, vertical, verticalRef, blur, blurRef, spread, spreadRef, previewBox, rule, webkitRule, mozRule){
 
-        this.horiontal = horizontal;
-        this.horizontalRef = horizontalRef
-        this.vertical = vertical
-        this.verticalRef = verticalRef
-        this.blur = blur
-        this.blurRef = blurRef
-        this.spread = spread
-        this.spreadRef = spreadRef
-        this.previewBox = previewBox
-        this.rule = rule
-        this.webkitRule = webkitRule
-        this.mozRule = mozRule
+        this.horizontal = horizontal;
+        this.horizontalRef = horizontalRef;
+        this.vertical = vertical;
+        this.verticalRef = verticalRef;
+        this.blur = blur;
+        this.blurRef = blurRef;
+        this.spread = spread;
+        this.spreadRef = spreadRef;
+        this.previewBox = previewBox;
+        this.rule = rule;
+        this.webkitRule = webkitRule;
+        this.mozRule = mozRule;
+    }
+
+    //O initialize eu consigo recuperar o valor do input
+
+    initialize(){
+
+        this.horizontalRef.value = this.horizontal.value;
+        this.verticalRef.value = this.vertical.value;
+        this.blurRef.value = this.blur.value;
+        this.spreadRef.value = this.spread.value;
+
+        this.applyRule();
+        this.showRule();
+    }
+
+    //método que irá aplicar a regra 
+
+    applyRule(){
+        this.previewBox.style.boxShadow = `${this.horizontalRef.value}px ${this.verticalRef.value}px ${this.blurRef.value}px ${this.spreadRef.value}px #000000`
+        this.currentRule = this.previewBox.style.boxShadow;
+    }
+
+    //exibindo a regra para o usuário 
+
+    showRule(){
+        this.rule.innerText = this.currentRule;
+        this.webkitRule.innerText = this.currentRule;
+        this.mozRule.innerText = this.currentRule;
+
+    }
+
+    updateValue(type, value){
+
+        switch(type){
+
+            case "horizontal":
+                this.horizontalRef.value = value;
+                break;
+
+            case "vertical":
+                this.verticalRef.value = value;
+                break;
+  
+                    
+            case "blur":
+                 this.blurRef.value = value;
+                 break;
 
 
+            case "spread":
+                this.spreadRef.value = value;
+                break;
+
+                   
+            
+        }
+
+        this.applyRule();
+        this.showRule();
 
     }
 
@@ -34,10 +91,37 @@ const spreadRef = document.querySelector("#spread-value");
 
 const previewBox = document.querySelector("#box");
 
-const rule = documet.querySelector("#rule span");
-const webkitRule = documet.querySelector("#webkit-rule span");
-const mozRule = documet.querySelector("#moz-rule span");
+const rule = document.querySelector("#rule span");
+const webkitRule = document.querySelector("#webkit-rule span");
+const mozRule = document.querySelector("#moz-rule span");
 
+const boxShadow = new BoxShadowGenerator(horizontal, horizontalRef, vertical, verticalRef, blur, blurRef, spread, spreadRef, previewBox, rule, webkitRule, mozRule);
 
+//recuperando o valor do input
+boxShadow.initialize();
 
 // Eventos responsáveis para utilizar os métodos da classe puxando os inputs
+
+horizontal.addEventListener("input", (e) =>{
+    const value = e.target.value
+    
+    boxShadow.updateValue("horizontal", value);
+})
+
+vertical.addEventListener("input", (e) =>{
+    const value = e.target.value
+    
+    boxShadow.updateValue("vertical", value);
+})
+
+spread.addEventListener("input", (e) =>{
+    const value = e.target.value
+    
+    boxShadow.updateValue("spread", value);
+})
+
+blur.addEventListener("input", (e) =>{
+    const value = e.target.value
+    
+    boxShadow.updateValue("blur", value);
+})
